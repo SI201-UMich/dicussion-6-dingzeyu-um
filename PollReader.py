@@ -55,18 +55,21 @@ class PollReader():
         """
 
         # iterate through each row of the data
-        for i in self.raw_data:
+        for i in self.raw_data[1:]:
 
             # split up the row by column
-            seperated = i.split(' ')
+            separated = i.split(',')
 
-            # map each part of the row to the correct column
-            self.data_dict['month'].append(seperated[0])
-            self.data_dict['date'].append(int(seperated[1]))
-            self.data_dict['sample'].append(int(seperated[2]))
-            self.data_dict['sample type'].append(seperated[2])
-            self.data_dict['Harris result'].append(float(seperated[3]))
-            self.data_dict['Trump result'].append(float(seperated[4]))
+            sample_parts = separated[2].split()
+            sample_num = int(sample_parts[0])
+            sample_type = sample_parts[1]
+
+            self.data_dict['month'].append(separated[0])
+            self.data_dict['date'].append(int(separated[1]))
+            self.data_dict['sample'].append(sample_num)
+            self.data_dict['sample type'].append(sample_type)
+            self.data_dict['Harris result'].append(float(separated[3]))
+            self.data_dict['Trump result'].append(float(separated[4].strip()))
 
 
     def highest_polling_candidate(self):
